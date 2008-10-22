@@ -59,4 +59,5 @@ module RSpecMerbHelpers
       object.created_at.should == Time.now
     end
   end
+
 end

@@ -60,4 +60,30 @@ module RSpecMerbHelpers
     end
   end
 
+  def it_should_have_timestamps(object_name)
+    it "should have timestamps" do
+      object = instance_variable_get(object_name)
+      freeze_time!
+      created_at = Time.now
+      object.save
+      object.created_at.should == created_at
+      object.updated_at.should == created_at
+
+      freeze_time!(Time.now + 24.hours)
+      object.save
+      object.created_at.should == created_at
+      object.updated_at.should == Time.now
+    end
+  end
+
+  def it_should_be_valid(*object_names)
+    object_names.each do |object_name|
+      it "should be valid and save successfully" do
+        object = instance_variable_get(object_name)
+        object.should be_valid
+        object.save
+      end
+    end
+  end
+
 end
